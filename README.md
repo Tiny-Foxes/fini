@@ -19,8 +19,11 @@ languageCode=pt # REQUIRED
 countryCode=BR # OPTIONAL
 RTL=false # OPTIONAL (false by default)
 ignoreRequire=false # OPTIONAL (false by default)
+smTranslation=false # OPTIONAL (false by default)
 ```
 - Do your work on `main.fini` and run `node load.js` when done.
+
+If you enable smTranslation, then you'll have to edit `smtranslation/default/main.fini` & `smtranslation/fallback/main.fini`, when doing `node load.js` each respective files will be generated on both folders. You can ignore main.fini on the main folder if you enable this setting.
 
 ## FINI functions
 

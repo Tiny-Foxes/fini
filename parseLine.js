@@ -1,7 +1,9 @@
 const FS = require('fs').promises
 const INI = require('ini')
 const Esrever = require('esrever')
-exports.parseLine = async (line, value, config) => {
+const pathModule = require('path')
+
+exports.parseLine = async (line, value, config, smPath) => {
 	const isRequireEnabled = config.ignoreRequire === false
 	const isRTLEnabled = config.RTL === true
 
@@ -12,7 +14,7 @@ exports.parseLine = async (line, value, config) => {
 		const list = formatValue[1]
 		const requestedLine = formatValue[2]
 		const finalLine = formatValue[3]
-		const data = INI.parse(await FS.readFile(`./${path}`, 'utf-8'))
+		const data = INI.parse(await FS.readFile(smPath ? pathModule.join(__dirname, `/smtranslation/${smPath}/${path}`) : pathModule.join(__dirname, `/${path}`), 'utf-8'))
 		const requestedFileList = list ? data[list] : undefined
 
 		switch (specialRequest) {

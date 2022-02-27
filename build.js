@@ -1,7 +1,7 @@
 const parseLine = require('./parseLine.js').parseLine
 const FS = require('fs').promises
-
-exports.build = async (main, config) => {
+const path = require('path')
+exports.build = async (main, config, smPath) => {
 	const listStrings = Object.keys(main)
 	let finalString = ''
 
@@ -23,7 +23,7 @@ exports.build = async (main, config) => {
 		for (l = 0; l < currentListLines.length; l++) {
 			const currentLine = currentListLines[l]
 
-			finalString = finalString + await parseLine(currentLine, currentList[currentLine], config) + '\n' // Spacing for the next line
+			finalString = finalString + await parseLine(currentLine, currentList[currentLine], config, smPath) + '\n' // Spacing for the next line
 		}
 
 		finalString = finalString + '\n\n' // Spacing for the next list
@@ -38,8 +38,12 @@ exports.build = async (main, config) => {
 
 		return name
 	}
-	
-	await FS.writeFile(`${fileName()}.ini`, finalString)
+
+	if (smPath) {
+		await FS.writeFile(path.join(__dirname, `smtranslation/${smPath}/${fileName()}.ini`), finalString)
+	} else {
+		await FS.writeFile(`${fileName()}.ini`, finalString)
+	}
 
 	return finalString
 }

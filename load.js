@@ -3,6 +3,7 @@ const load = async () => {
 
 	const FS = require('fs').promises
 	const INI = require('ini')
+	const path = require('path')
 
 	console.log('Reading project file.')
 
@@ -22,16 +23,19 @@ const load = async () => {
 		throw 'No languageCode property found inside [config] list, aborting.'
 	}
 
-	const main = INI.parse(await FS.readFile('./main.fini', 'utf-8'))
-
-	if (!main) {
-		throw 'No main.fini file found, aborting.'
-	}
-
+	const defaultMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/default/main.fini'), 'utf-8'))
+	const fallbackMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/fallback/main.fini'), 'utf-8'))
+	const main = INI.parse(await FS.readFile(path.join(__dirname, '/main.fini'), 'utf-8'))
 	const build = require('./build.js').build
 
 	try {
-		await build(main, config)
+
+		if (config.smTranslation) {
+			await build(defaultMain, config, 'default')
+			await build(fallbackMain, config, 'fallback')
+		} else {
+			await build(main, config)
+		}
 		console.log('Build complete')
 	} catch (e) {
 		console.error(e)

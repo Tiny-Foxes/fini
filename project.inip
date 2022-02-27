@@ -3,3 +3,4 @@ languageCode=pt
 countryCode=BR
 RTL=false
 ignoreRequire=false
+smTranslation=false
