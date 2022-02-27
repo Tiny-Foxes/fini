@@ -1,0 +1,17 @@
+{
+  "name": "fini",
+  "version": "1.0.0",
+  "description": "Advanced ini reader",
+  "main": "build.js",
+  "scripts": {
+    "test": "node build.js"
+  },
+  "keywords": [
+    "ini"
+  ],
+  "author": "Jorge Luiz Souza Xavier",
+  "license": "Apache-2.0",
+  "dependencies": {
+    "ini": "^2.0.0"
+  }
+}

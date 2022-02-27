@@ -1,0 +1,5 @@
+[config]
+languageCode=pt ; REQUIRED
+countryCode=BR ; OPTIONAL
+RTL=false ; OPTIONAL
+ignoreRequire=false ; OPTIONAL
