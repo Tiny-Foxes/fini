@@ -2,8 +2,8 @@ const FS = require('fs').promises
 const INI = require('ini')
 const Esrever = require('esrever')
 exports.parseLine = async (line, value, config) => {
-	const isRequireEnabled = config.ignoreRequire !== false
-	const isRTLEnabled = config.RTL !== false
+	const isRequireEnabled = config.ignoreRequire === false
+	const isRTLEnabled = config.RTL === true
 
 	if (line.startsWith('FINI-') && isRequireEnabled) {
 		const specialRequest = line.substring(5)
