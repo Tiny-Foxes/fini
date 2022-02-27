@@ -1,4 +1,5 @@
 const parseLine = require('./parseLine.js').parseLine
+const FS = require('fs').promises
 
 exports.build = async (main, config) => {
 	const listStrings = Object.keys(main)
@@ -28,6 +29,17 @@ exports.build = async (main, config) => {
 		finalString = finalString + '\n\n' // Spacing for the next list
 	}
 
-	console.log(finalString)
+	const fileName = () => {
+		let name = config.languageCode
+
+		if (config.countryCode !== '') {
+			name = name + `-${config.countryCode}`
+		}
+
+		return name
+	}
+	
+	await FS.writeFile(`${fileName()}.ini`, finalString)
+
 	return finalString
 }

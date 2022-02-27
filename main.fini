@@ -1,5 +1,2 @@
-[common]
-FINI-requireFile=common.fini
-
-[screenTitleMenu]
-funny=hello
+[you content]
+goes=here
