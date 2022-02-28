@@ -3,6 +3,15 @@ const INI = require('js-ini')
 const Esrever = require('esrever')
 const pathModule = require('path')
 
+/**
+ * Parses a INI list line
+ * @async
+ * @param {string} line The line name
+ * @param {string} value The line value
+ * @param {import('js-ini/lib/interfaces/ini-object').IIniObject} config project.inip
+ * @param {'default' | 'fallback'} [smPath] 
+ * @returns {string}
+ */
 exports.parseLine = async (line, value, config, smPath) => {
 	const isRequireEnabled = config.ignoreRequire === false
 	const isRTLEnabled = config.RTL === true
@@ -30,12 +39,12 @@ exports.parseLine = async (line, value, config, smPath) => {
 				 */
 
 				if (formatValue.length === 2) {
-					if (!data[section]) {
-						console.warn(`Required file ${path} does not have requested section [${section}]`)
+					if (!data[list]) {
+						console.warn(`Required file ${path} does not have requested list [${list}]`)
 						return `${line}=Failed request ${specialRequest}`
 					}
 
-					return INI.stringify(data[section])
+					return INI.stringify(data[list])
 				}
 
 

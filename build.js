@@ -1,6 +1,15 @@
 const parseLine = require('./parseLine.js').parseLine
 const FS = require('fs').promises
 const path = require('path')
+
+/**
+ * Builds translation files.
+ * @async
+ * @param {import('js-ini/lib/interfaces/ini-object').IIniObject} main Translation file
+ * @param {import('js-ini/lib/interfaces/ini-object').IIniObject} config project.inip 
+ * @param {'default' | 'fallback'} [smPath] 
+ * @returns 
+ */
 exports.build = async (main, config, smPath) => {
 	const listStrings = Object.keys(main)
 	let finalString = ''
@@ -29,6 +38,10 @@ exports.build = async (main, config, smPath) => {
 		finalString = finalString + '\n\n' // Spacing for the next list
 	}
 
+	/**
+	 * Returns what the translation file should be named.
+	 * @returns {string}
+	 */
 	const fileName = () => {
 		let name = config.languageCode
 

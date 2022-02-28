@@ -1,3 +1,7 @@
+/**
+ * Loads checks to start the build process, designed for CLI use.
+ * @returns {boolean} Based if the build failed or not.
+ */
 const load = async () => {
 	console.log('Loading Libs')
 
@@ -37,6 +41,7 @@ const load = async () => {
 			await build(main, config)
 		}
 		console.log('Build complete')
+		return true
 	} catch (e) {
 		console.error(e)
 		console.warn('Build process failed')
