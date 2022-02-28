@@ -1,5 +1,5 @@
 const FS = require('fs').promises
-const INI = require('ini')
+const INI = require('js-ini')
 const Esrever = require('esrever')
 const pathModule = require('path')
 

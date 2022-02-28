@@ -2,7 +2,7 @@ const load = async () => {
 	console.log('Loading Libs')
 
 	const FS = require('fs').promises
-	const INI = require('ini')
+	const INI = require('js-ini')// require('ini')
 	const path = require('path')
 
 	console.log('Reading project file.')

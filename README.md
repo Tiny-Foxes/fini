@@ -3,7 +3,15 @@ Modular .ini translation
 
 ## What it is
 
-`fini` uses [`npm/ini`](https://github.com/npm/ini) to add additional functions into .ini files and help create and more organized modular space for OutFox translation. 
+`fini` uses [`Sdju/js-ini`](https://github.com/Sdju/js-ini) to add additional functions into .ini files and help create and more organized modular space for OutFox translation. 
+
+**"#" comments are NOT supported by default!** After installing the packages, go to node_modules/js-ini/lib/parse.js and edit the line 39 to this:
+
+```JavaScript
+if ((line.length === 0) || (line.startsWith(comment)) || line.startsWith('#')) {
+```
+
+Then save it, this will make so comments don't crash the program, it's important to note that both types of comments (; and #) will be ignore when building.
 
 ##### It can also be used to translate any other stepmania based engine which still uses .ini format for translation.
 
