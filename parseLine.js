@@ -38,6 +38,13 @@ exports.parseLine = async (line, value, config, smPath) => {
 				 * arg2 = File Section, [many ini files includes section like this]
 				 */
 
+				const lookForList = list && !!data[list] ? data[list] : data.exports
+				const checkForUndefined = Object.values(lookForList).indexOf(undefined)
+				if (checkForUndefined !== -1) {
+					console.warn(`\n\n${Object.keys(lookForList)[checkForUndefined]}\n\nThis key has a empty value. Lists that includes keys with no value cannot be exported with requireSection.`)
+					return `${line}=Failed request ${specialRequest}`
+				}
+
 				if (formatValue.length === 2) {
 					if (!data[list]) {
 						console.warn(`Required file ${path} does not have requested list [${list}]`)
@@ -79,7 +86,7 @@ exports.parseLine = async (line, value, config, smPath) => {
 					return `${line}=Failed request ${specialRequest}`
 				}
 
-				return `${requestedLine}=${isRTLEnabled? Esrever.reverse(requestedFileList[requestedLine]) : requestedFileList[requestedLine]}`
+				return `${requestedLine}=${isRTLEnabled? Esrever.reverse(requestedFileList[requestedLine] || "") : requestedFileList[requestedLine] || ""}`
 			case 'requireValue': // FINI-requireLine=common.fini-hey-peter-louis
 				/**
 				 * requireValue works exactly like requireLine, but you 
@@ -108,11 +115,11 @@ exports.parseLine = async (line, value, config, smPath) => {
 					return `${line}=Failed request ${specialRequest}`
 				}
 
-				return `${finalLine}=${isRTLEnabled? Esrever.reverse(requestedFileList[requestedLine]) : requestedFileList[requestedLine]}`
+				return `${finalLine}=${isRTLEnabled? Esrever.reverse(requestedFileList[requestedLine] || "") : requestedFileList[requestedLine] || ""}`
 			default:
-				return `${line}=${isRTLEnabled? Esrever.reverse(value) : value}`
+				return `${line}=${isRTLEnabled? Esrever.reverse(value || "") : value || ""}`
 		}
 	}
 
-	return `${line}=${isRTLEnabled? Esrever.reverse(value) : value}`
+	return `${line}=${isRTLEnabled? Esrever.reverse(value) || "" : value || ""}`
 }

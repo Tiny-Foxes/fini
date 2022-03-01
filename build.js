@@ -31,7 +31,6 @@ exports.build = async (main, config, smPath) => {
 
 		for (l = 0; l < currentListLines.length; l++) {
 			const currentLine = currentListLines[l]
-
 			finalString = finalString + await parseLine(currentLine, currentList[currentLine], config, smPath) + '\n' // Spacing for the next line
 		}
 
