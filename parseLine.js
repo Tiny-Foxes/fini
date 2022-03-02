@@ -35,7 +35,7 @@ exports.parseLine = async (line, value, config, smPath) => {
 				 * Usage: FINI-requireSection=arg1 OR FINI-requireSection=arg1-arg2
 				 * Where:
 				 * arg1 = File path to any valid ini file.
-				 * arg2 = File Section, [many ini files includes section like this]
+				 * arg2 = File Section, [ini files includes section like this]
 				 */
 
 				const lookForList = list && !!data[list] ? data[list] : data.exports
@@ -45,29 +45,36 @@ exports.parseLine = async (line, value, config, smPath) => {
 					return `${line}=Failed request ${specialRequest}`
 				}
 
-				if (formatValue.length === 2) {
-					if (!data[list]) {
-						console.warn(`Required file ${path} does not have requested list [${list}]`)
-						return `${line}=Failed request ${specialRequest}`
-					}
-
-					return INI.stringify(data[list])
+				if (formatValue.length === 2 && !data[list]) {
+					console.warn(`Required file ${path} does not have requested list [${list}]`)
+					return `${line}=Failed request ${specialRequest}`
 				}
 
 
-				if (!data.exports) {
+				if (!list && !data.exports) {
 					console.warn(`Required file "${path}" has no [exports] list.`)
 					return `${line}=Failed request ${specialRequest}`
 				}
 
-				return INI.stringify(data.exports)
+				const linesOfList = Object.keys(lookForList)
+				let sectionResult = ''
+				for (let l = 0; l < linesOfList.length; l++) { 
+					const lineValue = lookForList[linesOfList[l]]
+					const lineName = linesOfList[l]
+
+					// This makes FINI- functions work inside sections that are required.
+					// Circular references are not protected!
+					sectionResult = sectionResult + await this.parseLine(lineName, lineValue, config, smPath) + '\n'
+				}
+
+				return sectionResult
 			case 'requireLine': // FINI-requireLine=common.fini-hey-peter
 				/**
 				 * requireLine returns given line from given file path and given file section.
 				 * Usage: FINI-requireLine=arg1-arg2-arg3
 				 * Where:
 				 * arg1 = File Path to any valid ini file.
-				 * agr2 = File Section, [many ini files includes section like this]
+				 * agr2 = File Section, [ini files includes section like this]
 				 * arg3 = Section Line, which line from the given section to export.
 				 */
 
@@ -94,7 +101,7 @@ exports.parseLine = async (line, value, config, smPath) => {
 				 * Usage: FINI-requireValue=arg1-arg2-arg3-arg4
 				 * Where:
 				 * arg1 = File Path to any valid ini file.
-				 * agr2 = File Section, [many ini files includes section like this]
+				 * agr2 = File Section, [ini files includes section like this]
 				 * arg3 = Section Line, which line from the given section to export.
 				 * arg4 = The name of the line which will hold value from agr3
 				 */

@@ -45,6 +45,10 @@ This project introduces special `FINI-` function to be used inside inside the se
 
 See usage in [example/requireSection](./example/requireSection/)
 
+Note: requireSection is the only `FINI-` function that also executes `FINI-` functions, that means if you require a section from another file and that section has lines that execute `FINI-` function, they'll also be executed, `FINI-requireLine` and `FINI-requireValue` do not have this feature. (Might be supported in the future if requested)
+
+While this is good, it makes circular references possible, the parser WILL NOT PREVENT THEM, the program will either halt or crash by memory heap overflow.
+
 ### FINI-requireLine
 
 ```JavaScript

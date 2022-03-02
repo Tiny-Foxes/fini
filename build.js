@@ -1,4 +1,4 @@
-const parseLine = require('./parseLine.js').parseLine
+const { parseLine } = require('./parseLine.js')
 const FS = require('fs').promises
 const path = require('path')
 
