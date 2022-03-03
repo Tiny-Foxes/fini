@@ -29,10 +29,17 @@ const load = async () => {
 
 	const defaultMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/default/main.fini'), 'utf-8'))
 	const fallbackMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/fallback/main.fini'), 'utf-8'))
+	const { splitSections } = require('./splitSections.js')
 	const main = INI.parse(await FS.readFile(path.join(__dirname, '/main.fini'), 'utf-8'))
 	const build = require('./build.js').build
 
 	try {
+
+		if (config.split) {
+			await splitSections(main)
+			console.log('Split complete, if this is the only split you want to do, then change the value of split on project.inip to false')
+			return true
+		}
 
 		if (config.smTranslation) {
 			await build(defaultMain, config, 'default')
