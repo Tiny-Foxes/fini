@@ -8,7 +8,7 @@ const load = async () => {
 	const FS = require('fs').promises
 	const INI = require('js-ini')// require('ini')
 	const path = require('path')
-
+	const checkConfig = require('./config.js').config
 	console.log('Reading project file.')
 
 	const project = INI.parse(await FS.readFile('./project.inip', 'utf-8'))
@@ -21,12 +21,7 @@ const load = async () => {
 		throw 'No [config] list found, aborting.'
 	}
 
-	const config = project.config
-
-	if (!config.languageCode) {
-		throw 'No languageCode property found inside [config] list, aborting.'
-	}
-
+	const config = await checkConfig(project.config)
 	const defaultMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/default/main.fini'), 'utf-8'))
 	const fallbackMain = INI.parse(await FS.readFile(path.join(__dirname, '/smtranslation/fallback/main.fini'), 'utf-8'))
 	const { splitSections } = require('./splitSections.js')
@@ -56,4 +51,10 @@ const load = async () => {
 	}
 }
 
-load()
+
+try {
+	load()
+} catch (e) {
+	console.error(e)
+	console.log('\n\nCheck your project.inip and make sure things are correct.')
+}

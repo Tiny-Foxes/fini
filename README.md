@@ -49,7 +49,7 @@ This variable is ignored when `split` is true.
 
 - split
 
-This variable will split each section of `main.fini` into another file inside `split/sections`, a new `main.fini` will be generated inside `split/`. You're then supposed to move any content inside the split folder into either `smtranslation/default`/`smtranslation/fallback` OR to the root folder itself. _If you change the value of the variable to true, remember to turn it back to false when you no longer want to split files, and to delete any content inside the split folder if you're splitting a different file, as the function won't clear the folders before writting again._
+This variable will split each section of `main.fini` into another file inside `split/sections`, a new `main.fini` will be generated inside `split/`. You're then supposed to move any content inside the split folder into either `smtranslation/default`/`smtranslation/fallback` OR to the root folder itself (leave a sections folder inside of the split folder still). _If you change the value of the variable to true, remember to turn it back to false when you no longer want to split files, and to delete any content inside the split folder if you're splitting a different file, as the function won't clear the folders before writting again._
 
 Keys with empty values will not be separated, this is intentional, the program does not handle exporting keys with no value.
 
@@ -64,7 +64,7 @@ This project introduces special `FINI-` function to be used inside inside the se
 * requireSection returns a section from given file path,
 * optional second argument to specify section can be given, 
 * otherwise "exports" is the default exported section.
-* Usage: FINI-requireSection=arg1 OR FINI-requireSection=arg1-arg2
+* Usage: FINI-requireSection=arg1 OR FINI-requireSection=arg1--arg2
 * Where:
 * arg1 = File path to any valid ini file.
 * arg2 = File Section, [ini files includes section like this]
@@ -82,7 +82,7 @@ While this is good, it makes circular references possible, the parser WILL NOT P
 ```JavaScript
 /**
 * requireLine returns given line from given file path and given file section.
-* Usage: FINI-requireLine=arg1-arg2-arg3
+* Usage: FINI-requireLine=arg1--arg2--arg3
 * Where:
 * arg1 = File Path to any valid ini file.
 * agr2 = File Section, [ini files includes section like this]
@@ -98,7 +98,7 @@ See usage in [example/requireLine](./example/requireLine/)
 /**
 * requireValue works exactly like requireLine, but you 
 * specify the final name of the line on the final argument.
-* Usage: FINI-requireValue=arg1-arg2-arg3-arg4
+* Usage: FINI-requireValue=arg1--arg2--arg3--arg4
 * Where:
 * arg1 = File Path to any valid ini file.
 * agr2 = File Section, [ini files includes section like this]
